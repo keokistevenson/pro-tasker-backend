@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const connectDB = require("./config/connection");
 const routes = require("./routes");
-const passport = require("./config/passport");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,8 +14,6 @@ connectDB();
 // MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(passport.initialize());
 
 // ROUTES
 app.use(routes);

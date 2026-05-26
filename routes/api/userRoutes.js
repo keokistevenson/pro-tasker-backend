@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const passport = require("../../config/passport");
 const { User } = require("../../models");
 const { signToken, authMiddleware } = require("../../utils/auth");
 
@@ -103,31 +102,5 @@ router.get("/profile", authMiddleware, async (req, res) => {
     });
   }
 });
-
-
-// GitHub Routes
-router.get("/auth/github",
-  passport.authenticate("github", { scope: ["user:email"] })
-);
-
-router.get("/auth/github/callback",
-  passport.authenticate("github", {
-    failureRedirect: "/login",
-    session: false,
-  }),
-  (req, res) => {
-    const token = signToken(req.user);
-
-    res.json({
-      message: "GitHub login successful.",
-      token,
-      user: {
-        _id: req.user._id,
-        username: req.user.username,
-        email: req.user.email,
-      },
-    });
-  }
-);
 
 module.exports = router;
