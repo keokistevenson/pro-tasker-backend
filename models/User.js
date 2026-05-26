@@ -18,12 +18,6 @@ const userSchema = new Schema(
       trim: true,
       match: [/.+@.+\..+/, "Must match a valid email address."],
     },
-
-    // GitHub user may not have a password. So not required.
-    password: {
-      type: String,
-      minlength: 8,
-    },
   },
   {
     timestamps: true,

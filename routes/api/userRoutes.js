@@ -51,12 +51,6 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    if (!user.password) {
-      return res.status(400).json({
-        message: "This account uses GitHub login.",
-      });
-    }
-
     const correctPassword = await user.isCorrectPassword(password);
 
     if (!correctPassword) {
