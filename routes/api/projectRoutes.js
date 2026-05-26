@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Project } = require("../../models");
+const { Project, Task } = require("../../models");
 const { authMiddleware } = require("../../utils/auth");
 
 // Every Project route below this requires a valid JWT
@@ -112,6 +112,61 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Could not delete project.",
+      error: error.message,
+    });
+  }
+});
+
+// CREATE a task for a project owned by logged-in user
+router.post("/:projectId/tasks", async (req, res) => {
+  try {
+    const project = await Project.findOne({
+      _id: req.params.projectId,
+      user: req.user._id,
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found.",
+      });
+    }
+
+    const task = await Task.create({
+      ...req.body,
+      project: req.params.projectId,
+    });
+
+    res.status(201).json(task);
+  } catch (error) {
+    res.status(500).json({
+      message: "Could not create task.",
+      error: error.message,
+    });
+  }
+});
+
+// GET all tasks for a project owned by logged-in user
+router.get("/:projectId/tasks", async (req, res) => {
+  try {
+    const project = await Project.findOne({
+      _id: req.params.projectId,
+      user: req.user._id,
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Project not found.",
+      });
+    }
+
+    const tasks = await Task.find({
+      project: req.params.projectId,
+    });
+
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({
+      message: "Could not get tasks.",
       error: error.message,
     });
   }
