@@ -1,6 +1,11 @@
 const router = require("express").Router();
+const mongoose = require("mongoose");
+
 const { Project, Task } = require("../../models");
 const { authMiddleware } = require("../../utils/auth");
+
+
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 // Every Project route below this requires a valid JWT
 router.use(authMiddleware);
@@ -41,6 +46,12 @@ router.get("/", async (req, res) => {
 // GET one project owned by logged-in user
 router.get("/:id", async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid project ID.",
+      });
+    }
+
     const project = await Project.findOne({
       _id: req.params.id,
       user: req.user._id,
@@ -64,6 +75,12 @@ router.get("/:id", async (req, res) => {
 // UPDATE one project owned by logged-in user
 router.put("/:id", async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid project ID.",
+      });
+    }
+
     const project = await Project.findOneAndUpdate(
       {
         _id: req.params.id,
@@ -99,9 +116,9 @@ router.delete("/:id", async (req, res) => {
       user: req.user._id,
     });
 
-    if (!project) {
-      return res.status(404).json({
-        message: "Project not found.",
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid project ID.",
       });
     }
 
@@ -120,6 +137,13 @@ router.delete("/:id", async (req, res) => {
 // CREATE a task for a project owned by logged-in user
 router.post("/:projectId/tasks", async (req, res) => {
   try {
+
+    if (!isValidObjectId(req.params.projectId)) {
+      return res.status(400).json({
+        message: "Invalid project ID.",
+      });
+    }
+
     const project = await Project.findOne({
       _id: req.params.projectId,
       user: req.user._id,
@@ -148,6 +172,12 @@ router.post("/:projectId/tasks", async (req, res) => {
 // GET all tasks for a project owned by logged-in user
 router.get("/:projectId/tasks", async (req, res) => {
   try {
+    if (!isValidObjectId(req.params.projectId)) {
+      return res.status(400).json({
+        message: "Invalid project ID.",
+      });
+    }
+
     const project = await Project.findOne({
       _id: req.params.projectId,
       user: req.user._id,
