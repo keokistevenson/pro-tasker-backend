@@ -1,5 +1,5 @@
 {
-  "name": "mod15-backendproject",
+  "name": "pro-tasker-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -9,7 +9,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Keoki Stevenson",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
