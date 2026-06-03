@@ -4,6 +4,37 @@ const { authMiddleware } = require("../../utils/auth");
 
 router.use(authMiddleware);
 
+// GET one task only if logged-in user owns the parent project
+router.get("/:taskId", async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.taskId);
+
+    if (!task) {
+      return res.status(404).json({
+        message: "Task not found.",
+      });
+    }
+
+    const project = await Project.findOne({
+      _id: task.project,
+      user: req.user._id,
+    });
+
+    if (!project) {
+      return res.status(403).json({
+        message: "You are not authorized to view this task.",
+      });
+    }
+
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({
+      message: "Could not get task.",
+      error: error.message,
+    });
+  }
+});
+
 // UPDATE a task only if logged-in user owns the parent project
 router.put("/:taskId", async (req, res) => {
   try {
