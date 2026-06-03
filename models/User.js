@@ -18,6 +18,11 @@ const userSchema = new Schema(
       trim: true,
       match: [/.+@.+\..+/, "Must match a valid email address."],
     },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+    },
   },
   {
     timestamps: true,
