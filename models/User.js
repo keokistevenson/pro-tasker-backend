@@ -23,6 +23,18 @@ const userSchema = new Schema(
       required: true,
       minlength: 8,
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    emailVerificationCode: {
+      type: String,
+    },
+
+    emailVerificationExpires: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
