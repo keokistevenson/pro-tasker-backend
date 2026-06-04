@@ -151,13 +151,46 @@ Authorization: Bearer <jwt_token>
 ## Project Structure
 
 ```text
-config/
-models/
-routes/
-  api/
-utils/
-server.js
+pro-tasker-backend/
+│
+├── config/
+│   └── connection.js
+│
+├── models/
+│   ├── index.js
+│   ├── User.js
+│   ├── Project.js
+│   └── Task.js
+│
+├── routes/
+│   ├── index.js
+│   └── api/
+│       ├── index.js
+│       ├── userRoutes.js
+│       ├── projectRoutes.js
+│       └── taskRoutes.js
+│
+├── utils/
+│   └── auth.js
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── README.md
+└── server.js
 ```
+
+### Folder Descriptions
+
+| Folder    | Purpose                             |
+| --------- | ----------------------------------- |
+| config    | Database connection configuration   |
+| models    | Mongoose schemas and models         |
+| routes    | API endpoints and route handlers    |
+| utils     | Authentication and helper utilities |
+| server.js | Application entry point             |
+
 
 ---
 
