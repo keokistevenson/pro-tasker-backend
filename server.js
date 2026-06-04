@@ -2,6 +2,8 @@
 const express = require("express");
 require("dotenv").config();
 
+const cors = require("cors");
+
 const connectDB = require("./config/connection");
 const routes = require("./routes");
 
@@ -14,6 +16,8 @@ connectDB();
 // MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 // ROUTES
 app.use(routes);
