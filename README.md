@@ -1,132 +1,179 @@
-# TaskMaster Backend API
+# Pro-Tasker Backend
 
-A secure RESTful backend API for managing projects and tasks with JWT authentication and ownership-based authorization.
+## Overview
+
+Pro-Tasker Backend is a RESTful API built with Node.js, Express, MongoDB, and Mongoose. It provides secure user authentication and project/task management functionality for the Pro-Tasker productivity application.
+
+The API supports user registration, login, JWT-based authentication, project management, and task tracking while ensuring users can only access and modify their own data.
 
 ---
 
 ## Features
 
-- User registration and login
-- Password hashing with bcrypt
-- JWT authentication
-- Protected routes
-- Project CRUD operations
-- Task CRUD operations
-- Ownership-based authorization
-- MongoDB database with Mongoose relationships
+### Authentication
+
+* User registration
+* User login
+* Password hashing with bcrypt
+* JSON Web Token (JWT) authentication
+* Protected API routes
+
+### Project Management
+
+* Create projects
+* View all user projects
+* View a single project
+* Update project information
+* Delete projects
+
+### Task Management
+
+* Create tasks
+* View project tasks
+* View individual tasks
+* Update task information and status
+* Delete tasks
+
+### Security
+
+* JWT authentication middleware
+* User ownership validation
+* Password hashing using bcrypt
+* Protected routes
+* MongoDB ObjectId validation
 
 ---
 
-## Tech Stack
+## Technologies Used
 
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- bcrypt
-- JSON Web Tokens (JWT)
-- dotenv
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JSON Web Token (JWT)
+* bcrypt
+* dotenv
+* cors
+
+---
+
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint            | Description                    |
+| ------ | ------------------- | ------------------------------ |
+| POST   | /api/users/register | Register a new user            |
+| POST   | /api/users/login    | Authenticate user              |
+| GET    | /api/users/profile  | Get authenticated user profile |
+
+### Projects
+
+| Method | Endpoint          | Description        |
+| ------ | ----------------- | ------------------ |
+| GET    | /api/projects     | Get all projects   |
+| POST   | /api/projects     | Create project     |
+| GET    | /api/projects/:id | Get single project |
+| PUT    | /api/projects/:id | Update project     |
+| DELETE | /api/projects/:id | Delete project     |
+
+### Tasks
+
+| Method | Endpoint                       | Description       |
+| ------ | ------------------------------ | ----------------- |
+| POST   | /api/projects/:projectId/tasks | Create task       |
+| GET    | /api/projects/:projectId/tasks | Get project tasks |
+| GET    | /api/tasks/:taskId             | Get single task   |
+| PUT    | /api/tasks/:taskId             | Update task       |
+| DELETE | /api/tasks/:taskId             | Delete task       |
 
 ---
 
 ## Installation
 
-Clone the repository:
+### Clone Repository
 
 ```bash
-git clone YOUR_REPO_URL
+git clone <repository-url>
+cd pro-tasker-backend
 ```
 
-Install dependencies:
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-Create a `.env` file:
+### Configure Environment Variables
+
+Create a `.env` file in the project root:
 
 ```env
-DB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
 PORT=3000
 ```
 
-Start the server:
+### Start Development Server
 
 ```bash
 npm run dev
 ```
 
----
+### Start Production Server
 
-## API Routes
-
-### Users
-
-| Method | Route | Description |
-|---|---|---|
-| POST | /api/users/register | Register user |
-| POST | /api/users/login | Login user |
-| GET | /api/users/profile | Get logged-in user profile |
-
-### Projects
-
-| Method | Route | Description |
-|---|---|---|
-| POST | /api/projects | Create project |
-| GET | /api/projects | Get all user projects |
-| GET | /api/projects/:id | Get one project |
-| PUT | /api/projects/:id | Update project |
-| DELETE | /api/projects/:id | Delete project |
-
-### Tasks
-
-| Method | Route | Description |
-|---|---|---|
-| POST | /api/projects/:projectId/tasks | Create task |
-| GET | /api/projects/:projectId/tasks | Get project tasks |
-| PUT | /api/tasks/:taskId | Update task |
-| DELETE | /api/tasks/:taskId | Delete task |
-
----
-
-## Authentication
-
-Protected routes require a JWT in the Authorization header:
-
-```txt
-Authorization: Bearer YOUR_TOKEN_HERE
+```bash
+npm start
 ```
 
 ---
 
-## Authorization
+## Environment Variables
 
-Users can only access projects they own.
-
-Task updates and deletions require ownership verification of the parent project.
-
----
-
-## Testing
-
-All endpoints were tested using Postman.
-
-Security testing included:
-
-- Accessing protected routes without a token
-- Attempting cross-user access
-- Ownership authorization validation
+| Variable    | Description                    |
+| ----------- | ------------------------------ |
+| MONGODB_URI | MongoDB connection string      |
+| JWT_SECRET  | Secret used to sign JWT tokens |
+| PORT        | Server port                    |
 
 ---
 
-## Future Improvements
+## Example Authentication Header
 
-- Task due dates
-- User roles
-- Pagination
-- Search/filtering
-- Refresh tokens
+Protected routes require a Bearer token:
 
-## Conclusions
-We weren't told to create a README in the assignment. For a project such as this I thought it was better to have a nicer README than my random comments. I thought I'd see what AI would do. I learned something here and may use it in future projects for a more extensive README. Much of this stuff i would have never thought to put in a README.
+```http
+Authorization: Bearer <jwt_token>
+```
+
+---
+
+## Project Structure
+
+```text
+config/
+models/
+routes/
+  api/
+utils/
+server.js
+```
+
+---
+
+## Future Enhancements
+
+* Task due dates
+* Task priorities
+* Project completion statistics
+* Task filtering and sorting
+* User profile management
+* Team collaboration features
+
+---
+
+## Author
+
+Keoki Stevenson
+
+Capstone Project – Software Engineering Program
