@@ -16,7 +16,7 @@ const authMiddleware = (req, res, next) => {
   // A token is header.payload.signature
 
   // Checks to see if the token was sent in the request
-  let token = req.body.token || req.query.token || req.headers.authorization;
+  let token = req.body?.token || req.query?.token || req.headers.authorization;
 
   if (req.headers.authorization) {
     token = token.split(" ").pop().trim();
