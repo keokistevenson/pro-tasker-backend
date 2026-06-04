@@ -161,4 +161,42 @@ router.post("/verify-email", async (req, res) => {
   }
 });
 
+router.post("/resend-verification", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+      });
+    }
+
+    if (user.isEmailVerified) {
+      return res.status(400).json({
+        message: "Email is already verified.",
+      });
+    }
+
+    const verificationCode = generateVerificationCode();
+
+    user.emailVerificationCode = verificationCode;
+    user.emailVerificationExpires = Date.now() + 15 * 60 * 1000;
+
+    await user.save();
+
+    await sendVerificationEmail(user.email, verificationCode);
+
+    res.json({
+      message: "A new verification code has been sent.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Could not resend verification code.",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;
