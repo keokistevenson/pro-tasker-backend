@@ -77,7 +77,7 @@ router.put("/:taskId", async (req, res) => {
       req.params.taskId,
       req.body,
       {
-        new: true,
+         returnDocument: "after",
         runValidators: true,
       }
     );
