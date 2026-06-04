@@ -1,6 +1,13 @@
 const router = require("express").Router();
 const { User } = require("../../models");
+
 const { signToken, authMiddleware } = require("../../utils/auth");
+const { sendVerificationEmail } = require("../../utils/emailService");
+
+// Generate 6-digit code
+function generateVerificationCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 router.post("/register", async (req, res) => {
   try {
@@ -14,16 +21,22 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    const user = await User.create({
-      username,
-      email,
-      password,
-    });
+    const verificationCode = generateVerificationCode();
+
+const user = await User.create({
+  username,
+  email,
+  password,
+  emailVerificationCode: verificationCode,
+  emailVerificationExpires: Date.now() + 15 * 60 * 1000,
+});
+
+await sendVerificationEmail(user.email, verificationCode);
 
     const token = signToken(user);
 
     res.status(201).json({
-      message: "User registered successfully.",
+      message: "User registered successfully. Verification code sent.",
       token,
       user: {
         _id: user._id,
