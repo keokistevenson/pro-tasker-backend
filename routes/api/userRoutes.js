@@ -31,7 +31,16 @@ router.post("/register", async (req, res) => {
       emailVerificationExpires: Date.now() + 15 * 60 * 1000,
     });
 
-    await sendVerificationEmail(user.email, verificationCode);
+    try {
+      await sendVerificationEmail(user.email, verificationCode);
+    } catch (emailError) {
+      await User.findByIdAndDelete(user._id);
+
+      return res.status(500).json({
+        message: "Registration failed. Verification email could not be sent.",
+        error: emailError.message,
+      });
+    }
 
     const token = signToken(user);
 
