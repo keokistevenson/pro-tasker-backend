@@ -23,15 +23,15 @@ router.post("/register", async (req, res) => {
 
     const verificationCode = generateVerificationCode();
 
-const user = await User.create({
-  username,
-  email,
-  password,
-  emailVerificationCode: verificationCode,
-  emailVerificationExpires: Date.now() + 15 * 60 * 1000,
-});
+    const user = await User.create({
+      username,
+      email,
+      password,
+      emailVerificationCode: verificationCode,
+      emailVerificationExpires: Date.now() + 15 * 60 * 1000,
+    });
 
-await sendVerificationEmail(user.email, verificationCode);
+    await sendVerificationEmail(user.email, verificationCode);
 
     const token = signToken(user);
 
@@ -105,6 +105,57 @@ router.get("/profile", authMiddleware, async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Could not get profile.",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/verify-email", async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+      });
+    }
+
+    if (user.isEmailVerified) {
+      return res.json({
+        message: "Email is already verified.",
+      });
+    }
+
+    if (
+      !user.emailVerificationCode ||
+      !user.emailVerificationExpires ||
+      user.emailVerificationExpires < Date.now()
+    ) {
+      return res.status(400).json({
+        message: "Verification code is invalid or expired.",
+      });
+    }
+
+    if (user.emailVerificationCode !== code) {
+      return res.status(400).json({
+        message: "Invalid verification code.",
+      });
+    }
+
+    user.isEmailVerified = true;
+    user.emailVerificationCode = undefined;
+    user.emailVerificationExpires = undefined;
+
+    await user.save();
+
+    res.json({
+      message: "Email verified successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Email verification failed.",
       error: error.message,
     });
   }
