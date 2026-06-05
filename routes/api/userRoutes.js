@@ -34,6 +34,7 @@ router.post("/register", async (req, res) => {
     try {
       await sendVerificationEmail(user.email, verificationCode);
     } catch (emailError) {
+      console.error("Email verification failed:", error);
       await User.findByIdAndDelete(user._id);
 
       return res.status(500).json({
