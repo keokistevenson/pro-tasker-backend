@@ -6,6 +6,7 @@
 ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 ![Nodemailer](https://img.shields.io/badge/Nodemailer-339933?style=for-the-badge&logo=gmail&logoColor=white)
+![bcrypt](https://img.shields.io/badge/bcrypt-003B57?style=for-the-badge)
 
 ## Overview
 
@@ -15,11 +16,42 @@ The API supports user registration, login, JWT-based authentication, project man
 
 ---
 
+## Architecture
+
+```text
+React Frontend
+      |
+      | JWT Auth / REST API
+      v
+Express Backend
+      |
+      +--> Email Verification
+      |
+      v
+MongoDB Database
+```
+
+The backend API handles authentication, authorization, project data, task data, and email verification logic. The frontend consumes the API through protected routes and user-specific requests.
+
+
+---
+## Related Repositories
+
+### Frontend Application
+
+[Pro-Tasker Frontend](https://github.com/keokistevenson/pro-tasker-frontend)
+
+The frontend repository contains the React and TypeScript client application that communicates with this backend API.
+
+
+---
+
 ## Features
 
 ### Authentication
 
 * User registration
+* Email verification
 * User login
 * Password hashing with bcrypt
 * JSON Web Token (JWT) authentication
@@ -43,12 +75,15 @@ The API supports user registration, login, JWT-based authentication, project man
 
 ### Security
 
-- JWT-based authentication
-- Protected frontend routes
-- Backend authorization middleware
-- User-specific project ownership validation
-- Email ownership verification
-- Password hashing using bcrypt
+* Password hashing with bcrypt
+* JWT-based authentication
+* Protected backend routes
+* Backend authorization middleware
+* User-specific project ownership validation
+* User-specific task authorization
+* Email ownership verification
+* Environment variables for sensitive credentials
+
 
 ---
 
@@ -61,6 +96,7 @@ The API supports user registration, login, JWT-based authentication, project man
 * JSON Web Token (JWT)
 * bcrypt
 * dotenv
+* Nodemailer
 * cors
 
 ---
@@ -69,11 +105,12 @@ The API supports user registration, login, JWT-based authentication, project man
 
 ### Authentication
 
-| Method | Endpoint            | Description                    |
-| ------ | ------------------- | ------------------------------ |
-| POST   | /api/users/register | Register a new user            |
-| POST   | /api/users/login    | Authenticate user              |
-| GET    | /api/users/profile  | Get authenticated user profile |
+| Method | Endpoint                 | Description                    |
+| ------ | ------------------------ | ------------------------------ |
+| POST   | /api/users/register      | Register a new user            |
+| POST   | /api/users/login         | Authenticate user              |
+| GET    | /api/users/profile       | Get authenticated user profile |
+| GET    | /api/users/verify-email  | Verify user email              |
 
 ### Projects
 
@@ -94,6 +131,56 @@ The API supports user registration, login, JWT-based authentication, project man
 | GET    | /api/tasks/:taskId             | Get single task   |
 | PUT    | /api/tasks/:taskId             | Update task       |
 | DELETE | /api/tasks/:taskId             | Delete task       |
+
+---
+
+## API Testing
+
+### User Registration
+
+Registers a new user account and sends a verification code to the user's email address.
+
+![User Registration](images/user-registration.png)
+
+---
+
+### User Authentication
+
+Authenticates a registered user and returns a JSON Web Token (JWT) for accessing protected routes.
+
+![User Authentication](images/user-authentication.png)
+
+---
+
+### Project Creation
+
+Creates a new project associated with the authenticated user account.
+
+![Project Creation](images/project-creation.png)
+
+---
+
+### Task Creation
+
+Creates a task within a specific project and associates it with that project.
+
+![Task Creation](images/task-creation.png)
+
+---
+
+### Route Protection
+
+Protected routes require a valid JWT token. Requests without authentication are denied.
+
+![Unauthorized Request](images/unauthorized-request.png)
+
+---
+
+### User-Specific Authorization
+
+Users can only access projects they own. Attempting to access another user's project returns a "Project not found" response, preventing unauthorized access to project data.
+
+![User-Specific Authorization](images/user-specific-authorization.png)
 
 ---
 
@@ -120,6 +207,10 @@ Create a `.env` file in the project root:
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 PORT=3000
+
+EMAIL_USER=your_email_address
+EMAIL_PASS=your_email_app_password
+EMAIL_FROM=your_email_address
 ```
 
 ### Start Development Server
@@ -138,11 +229,14 @@ npm start
 
 ## Environment Variables
 
-| Variable    | Description                    |
-| ----------- | ------------------------------ |
-| MONGODB_URI | MongoDB connection string      |
-| JWT_SECRET  | Secret used to sign JWT tokens |
-| PORT        | Server port                    |
+| Variable    | Description                          |
+| ----------- | ------------------------------------ |
+| MONGODB_URI | MongoDB connection string            |
+| JWT_SECRET  | Secret used to sign JWT tokens       |
+| PORT        | Server port                          |
+| EMAIL_USER  | Email account used by Nodemailer     |
+| EMAIL_PASS  | Email app password                   |
+| EMAIL_FROM  | Sender email address                 |
 
 ---
 
@@ -205,6 +299,7 @@ utils/emailService.js
 * Task filtering and sorting
 * User profile management
 * Team collaboration features
+* Mobile application support
 
 ---
 
