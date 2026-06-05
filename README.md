@@ -253,28 +253,41 @@ Authorization: Bearer <jwt_token>
 ## Project Structure
 
 ```text
-.env
-.env.example
-README.md
-config
-config/connection.js
-models
-models/Project.js
-models/Task.js
-models/User.js
-models/index.js
-package.json
-routes
-routes/api
-routes/api/index.js
-routes/api/projectRoutes.js
-routes/api/taskRoutes.js
-routes/api/userRoutes.js
-routes/index.js
-server.js
-utils
-utils/auth.js
-utils/emailService.js
+pro-tasker-backend/
+├── .env
+├── .env.example
+├── README.md
+├── package.json
+├── server.js
+│
+├── config/
+│   └── connection.js
+│
+├── images/
+│   ├── ProjectCreation.png
+│   ├── TaskCreation.png
+│   ├── UnauthorizedLogin.png
+│   ├── UserAuthentication.png
+│   ├── UserRegistration.png
+│   └── UserSpecificAuthentication.png
+│
+├── models/
+│   ├── Project.js
+│   ├── Task.js
+│   ├── User.js
+│   └── index.js
+│
+├── routes/
+│   ├── index.js
+│   └── api/
+│       ├── index.js
+│       ├── projectRoutes.js
+│       ├── taskRoutes.js
+│       └── userRoutes.js
+│
+└── utils/
+    ├── auth.js
+    └── emailService.js
 
 ```
 
