@@ -140,7 +140,7 @@ The frontend repository contains the React and TypeScript client application tha
 
 Registers a new user account and sends a verification code to the user's email address.
 
-![User Registration](images/user-registration.png)
+![User Registration](images/UserRegistration.png)
 
 ---
 
@@ -148,7 +148,7 @@ Registers a new user account and sends a verification code to the user's email a
 
 Authenticates a registered user and returns a JSON Web Token (JWT) for accessing protected routes.
 
-![User Authentication](images/user-authentication.png)
+![User Authentication](images/UserAuthentication.png)
 
 ---
 
@@ -156,7 +156,7 @@ Authenticates a registered user and returns a JSON Web Token (JWT) for accessing
 
 Creates a new project associated with the authenticated user account.
 
-![Project Creation](images/project-creation.png)
+![Project Creation](images/ProjectCreation.png)
 
 ---
 
@@ -164,7 +164,7 @@ Creates a new project associated with the authenticated user account.
 
 Creates a task within a specific project and associates it with that project.
 
-![Task Creation](images/task-creation.png)
+![Task Creation](images/TaskCreation.png)
 
 ---
 
@@ -172,7 +172,7 @@ Creates a task within a specific project and associates it with that project.
 
 Protected routes require a valid JWT token. Requests without authentication are denied.
 
-![Unauthorized Request](images/unauthorized-request.png)
+![Unauthorized Request](images/UnauthorizedLogin.png)
 
 ---
 
@@ -180,7 +180,7 @@ Protected routes require a valid JWT token. Requests without authentication are 
 
 Users can only access projects they own. Attempting to access another user's project returns a "Project not found" response, preventing unauthorized access to project data.
 
-![User-Specific Authorization](images/user-specific-authorization.png)
+![User-Specific Authorization](images/UserSpecificAuthentication.png)
 
 ---
 
