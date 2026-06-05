@@ -1,5 +1,12 @@
 # Pro-Tasker Backend
 
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![Nodemailer](https://img.shields.io/badge/Nodemailer-339933?style=for-the-badge&logo=gmail&logoColor=white)
+
 ## Overview
 
 Pro-Tasker Backend is a RESTful API built with Node.js, Express, MongoDB, and Mongoose. It provides secure user authentication and project/task management functionality for the Pro-Tasker productivity application.
@@ -36,11 +43,12 @@ The API supports user registration, login, JWT-based authentication, project man
 
 ### Security
 
-* JWT authentication middleware
-* User ownership validation
-* Password hashing using bcrypt
-* Protected routes
-* MongoDB ObjectId validation
+- JWT-based authentication
+- Protected frontend routes
+- Backend authorization middleware
+- User-specific project ownership validation
+- Email ownership verification
+- Password hashing using bcrypt
 
 ---
 
@@ -151,34 +159,29 @@ Authorization: Bearer <jwt_token>
 ## Project Structure
 
 ```text
-pro-tasker-backend/
-│
-├── config/
-│   └── connection.js
-│
-├── models/
-│   ├── index.js
-│   ├── User.js
-│   ├── Project.js
-│   └── Task.js
-│
-├── routes/
-│   ├── index.js
-│   └── api/
-│       ├── index.js
-│       ├── userRoutes.js
-│       ├── projectRoutes.js
-│       └── taskRoutes.js
-│
-├── utils/
-│   └── auth.js
-│
-├── .env.example
-├── .gitignore
-├── package.json
-├── package-lock.json
-├── README.md
-└── server.js
+.env
+.env.example
+README.md
+config
+config/connection.js
+models
+models/Project.js
+models/Task.js
+models/User.js
+models/index.js
+package.json
+routes
+routes/api
+routes/api/index.js
+routes/api/projectRoutes.js
+routes/api/taskRoutes.js
+routes/api/userRoutes.js
+routes/index.js
+server.js
+utils
+utils/auth.js
+utils/emailService.js
+
 ```
 
 ### Folder Descriptions
